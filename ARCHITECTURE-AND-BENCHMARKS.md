@@ -23,4 +23,4 @@ Not measured (no claims made): token/cost savings versus other architectures, la
 
 ## Roadmap (not implemented)
 
-Hierarchical orchestrator/worker runtime, MCP gateway, prompt-injection sanitizer, cost circuit-breaker, CLI, end-to-end agent evaluations.
+Hierarchical orchestrator/worker runtime, prompt-injection sanitizer, cost circuit-breaker, CLI, end-to-end agent evaluations.

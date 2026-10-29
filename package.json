@@ -1,7 +1,7 @@
 {
   "name": "agent-harness-kit",
   "version": "0.1.0",
-  "description": "Small zero-dependency Bun/TypeScript toolkit: agent loop detection, token-budget pruning, command guardrails, role/model router.",
+  "description": "Small Bun/TypeScript toolkit (zero-dependency core, optional MCP server): agent loop detection, token-budget pruning, command guardrails, role/model router.",
   "license": "MIT",
   "type": "module",
   "main": "src/index.ts",

@@ -1,0 +1,10 @@
+{
+  "name": "agent-harness-kit-mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MCP server (stdio) exposing agent-harness-kit modules as four tools.",
+  "license": "MIT",
+  "scripts": { "start": "bun run server.ts", "test": "bun test" },
+  "dependencies": { "@modelcontextprotocol/sdk": "1.32.2" }
+}

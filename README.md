@@ -1,6 +1,6 @@
 # Agent Harness Kit
 
-Small, zero-dependency Bun + TypeScript toolkit with four building blocks for LLM agent harnesses. Every module has unit tests (`bun test`).
+Small Bun + TypeScript toolkit with four building blocks for LLM agent harnesses. The core in `src/` has zero runtime dependencies; the optional `mcp-server/` subfolder depends on the MCP SDK. Every module has unit tests (`bun test`).
 
 ## Modules (implemented)
 
@@ -38,9 +38,35 @@ const router = new Router({
 router.route({ role: "builder", size: 500 }); // { agent: "builder", model: "opus", matched: true }
 ```
 
+## MCP server
+
+`mcp-server/` is a stdio MCP server that exposes the four core modules as tools. It is a plain server, not a gateway or proxy: it does not sit in front of other MCP servers. It has its own `package.json` (pinned `@modelcontextprotocol/sdk` 1.32.2); the core stays dependency-free.
+
+```bash
+cd mcp-server
+bun install
+bun run server.ts   # speaks MCP over stdin/stdout
+bun test            # spawns the server over stdio and exercises every tool
+```
+
+Client config example:
+
+```json
+{ "mcpServers": { "agent-harness-kit": { "command": "bun", "args": ["run", "/path/to/agent-harness-kit/mcp-server/server.ts"] } } }
+```
+
+| Tool | Input | Output |
+| :--- | :--- | :--- |
+| `check_command` | `command` | `allowed`, matching `rule`, `reason` (default deny rules) |
+| `prune_context` | `messages`, `budget` | pruned `messages`, heuristic `tokens`, `dropped` |
+| `detect_loop` | `calls` (+ optional `maxRepeats`, `windowSize`) | `looping`, `firstLoopAt` |
+| `route_task` | `role`, optional `size` | `agent`, `model`, `matched` (built-in example routes) |
+
+Invalid arguments return an MCP tool error (`isError`), not a crash.
+
 ## Roadmap (not implemented)
 
-Orchestrator/worker runtime, MCP gateway, prompt-injection sanitizer, cost circuit-breaker, CLI. See `ARCHITECTURE-AND-BENCHMARKS.md`.
+Orchestrator/worker runtime, prompt-injection sanitizer, cost circuit-breaker, CLI. See `ARCHITECTURE-AND-BENCHMARKS.md`.
 
 ## License
 
